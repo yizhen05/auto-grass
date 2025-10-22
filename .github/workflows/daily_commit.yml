@@ -2,34 +2,36 @@ name: 毎日 'w' をコミット
 
 on:
   schedule:
-    # 毎日 10:00 (UTC) に実行します
-    # 日本時間 (JST) では 19:00 になります
+    # 日本時間 19:00 (UTC 10:00)
     - cron: '0 10 * * *'
   
-  # GitHubのActionsタブから手動で実行できるようにする
+  # 手動実行を許可
   workflow_dispatch:
 
 jobs:
   commit_w:
+    # jobsの中（インデント 2）
     runs-on: ubuntu-latest
-
-    # permissions と steps は 'runs-on' と同じ階層（深さ）にします
+    
     permissions:
       contents: write
 
+    # 'steps:' は 'runs-on' や 'permissions' と同じ階層（インデント 4）
     steps:
-      # 各ステップ('- name:')は 'steps:' の下（一段深く）に置きます
+      # 'steps:' の中（インデント 6）
       - name: リポジトリをチェックアウト
         uses: actions/checkout@v4
 
+      # 'steps:' の中（インデント 6）
       - name: 'w.txt' に 'w' を追記
         run: echo "w" >> w.txt
 
+      # 'steps:' の中（インデント 6）
       - name: 変更をコミット & プッシュ
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          # 'with:' の中身はさらに一段深くします
+          # 'with:' の中（インデント 8）
           commit_message: "Automated commit: Add 'w' 🌿"
-          file_pattern: w.txt # コミット対象のファイルを指定
-          commit_user_name: github-actions[bot] # ボット名を指定
-          commit_user_email: github-actions[bot]@users.noreply.github.com # ボットのEmailを指定
+          file_pattern: w.txt
+          commit_user_name: github-actions[bot]
+          commit_user_email: github-actions[bot]@users.noreply.github.com
