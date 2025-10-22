@@ -1,0 +1,30 @@
+name: 毎日 'w' をコミット
+
+on:
+  schedule:
+    - cron: '0 10 * * *'
+  
+  # GitHubのActionsタブから手動で実行できるようにする
+  workflow_dispatch:
+
+jobs:
+  commit_w:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: リポジトリをチェックアウト
+        uses: actions/checkout@v4
+
+      - name: 'w.txt' に 'w' を追記
+        run: echo "w" >> w.txt
+
+      - name: 変更をコミット & プッシュ
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Automated commit: Add 'w' 🌿"
+          file_pattern: w.txt # コミット対象のファイルを指定
+          commit_user_name: github-actions[bot] # ボット名を指定
+          commit_user_email: github-actions[bot]@users.noreply.github.com # ボットのEmailを指定
